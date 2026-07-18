@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Interactivos de Negocios Digitales - EmprendeTecH</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom custom scrollbars for review section */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+    <!-- Top Navigation / Header -->
+    <header class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 sticky top-0 z-40 backdrop-blur-md bg-opacity-90 dark:bg-opacity-90">
+        <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-emerald-500 to-teal-600 text-white p-2.5 rounded-xl shadow-md shadow-emerald-500/20">
+                    <i class="fa-solid fa-graduation-cap text-lg"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 tracking-wider uppercase">Plataforma Educativa</span>
+                    <h1 class="text-lg font-extrabold text-slate-900 dark:text-white tracking-tight leading-none">EmprendeTecH</h1>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- Theme Toggle -->
+                <button id="themeToggle" class="p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors" title="Cambiar tema">
+                    <i class="fa-solid fa-moon dark:hidden text-lg"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow flex items-center justify-center py-8 px-4">
+        <div class="w-full max-w-3xl">
+            
+            <!-- START / WELCOME CARD -->
+            <div id="welcomeCard" class="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-10 shadow-xl transition-all duration-300">
+                <div class="text-center max-w-xl mx-auto">
+                    <div class="inline-flex p-4 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 rounded-2xl mb-6">
+                        <i class="fa-solid fa-rocket text-4xl animate-pulse"></i>
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">
+                        Simulador de Test Evaluativo
+                    </h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-base mb-8 leading-relaxed">
+                        Bienvenido al simulador interactivo de <strong class="text-emerald-600 dark:text-emerald-400 font-semibold">Negocio Digital y E-Commerce</strong>. Responde a las 20 preguntas seleccionadas para medir tu nivel de dominio técnico de los modelos de mercado actuales.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-8 text-left">
+                        <div class="p-4 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl">
+                            <span class="text-xs text-slate-500 block mb-1">Nº Preguntas</span>
+                            <span class="text-lg font-bold text-slate-800 dark:text-slate-200">20 Reactivos</span>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl">
+                            <span class="text-xs text-slate-500 block mb-1">Orden de evaluación</span>
+                            <span class="text-lg font-bold text-slate-800 dark:text-slate-200">Secuencial</span>
+                        </div>
+                    </div>
+
+                    <button id="startBtn" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-semibold rounded-2xl shadow-lg shadow-emerald-500/25 transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-150">
+                        Comenzar Test Interactivos <i class="fa-solid fa-chevron-right ml-2 text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- QUIZ CARD -->
+            <div id="quizCard" class="hidden bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-xl overflow-hidden transition-all duration-300">
+                <!-- Progress & Stats Bar -->
+                <div class="bg-slate-50 dark:bg-slate-900/60 px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Progreso:</span>
+                        <span id="questionCounter" class="text-sm font-extrabold text-slate-700 dark:text-slate-300">0/0</span>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-xs font-medium text-emerald-600 dark:text-emerald-400 flex items-center bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-1 rounded-full">
+                            <i class="fa-solid fa-circle-check mr-1.5"></i> Aciertos: <span id="liveScoreCorrect" class="font-bold ml-1">0</span>
+                        </span>
+                        <span class="text-xs font-medium text-rose-600 dark:text-rose-400 flex items-center bg-rose-50 dark:bg-rose-950/50 px-2.5 py-1 rounded-full">
+                            <i class="fa-solid fa-circle-xmark mr-1.5"></i> Fallos: <span id="liveScoreIncorrect" class="font-bold ml-1">0</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Visual Progress Bar indicator -->
+                <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5">
+                    <div id="progressBar" class="bg-gradient-to-r from-emerald-500 to-teal-500 h-1.5 rounded-r-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+
+                <!-- Question and Choices Content -->
+                <div class="p-6 sm:p-8">
+                    <!-- Category / Label -->
+                    <span id="quizBadge" class="inline-block text-xs font-bold tracking-widest text-emerald-600 dark:text-emerald-400 uppercase mb-3">CONCEPTO CLAVE</span>
+                    
+                    <!-- Question Text -->
+                    <h3 id="questionText" class="text-xl sm:text-2xl font-bold text-slate-950 dark:text-white leading-snug mb-8">
+                        Cargando pregunta...
+                    </h3>
+
+                    <!-- Option Containers -->
+                    <div id="optionsContainer" class="space-y-4">
+                        <!-- Dynamic Options Loaded Here -->
+                    </div>
+                </div>
+
+                <!-- Footer Operations -->
+                <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/40 border-t border-slate-200 dark:border-slate-800 flex justify-end">
+                    <button id="nextBtn" disabled class="px-6 py-3 bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed font-semibold rounded-xl flex items-center transition-all duration-200">
+                        Siguiente Pregunta <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- RESULT CARD -->
+            <div id="resultCard" class="hidden bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-10 shadow-xl transition-all duration-300">
+                <div class="text-center mb-8">
+                    <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 tracking-widest uppercase block mb-2">Simulación Finalizada</span>
+                    <h2 class="text-3xl font-extrabold text-slate-950 dark:text-white">Tu Rendimiento General</h2>
+                </div>
+
+                <!-- Gauge & Metrics Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center mb-10">
+                    <!-- Score gauge -->
+                    <div class="md:col-span-5 flex flex-col items-center justify-center">
+                        <div class="relative w-40 h-40 flex items-center justify-center">
+                            <!-- SVG Progress Circle -->
+                            <svg class="w-full h-full transform -rotate-90">
+                                <circle cx="80" cy="80" r="70" stroke="currentColor" class="text-slate-100 dark:text-slate-800" stroke-width="12" fill="transparent" />
+                                <circle id="resultProgressCircle" cx="80" cy="80" r="70" stroke="currentColor" class="text-emerald-500" stroke-dasharray="439.8" stroke-dashoffset="439.8" stroke-width="12" fill="transparent" stroke-linecap="round" class="transition-all duration-1000 ease-out" />
+                            </svg>
+                            <div class="absolute flex flex-col items-center">
+                                <span id="resultPercentText" class="text-3xl font-extrabold text-slate-900 dark:text-white">0%</span>
+                                <span class="text-xs text-slate-500 uppercase tracking-widest">Aciertos</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Metrics Details -->
+                    <div class="md:col-span-7 space-y-4">
+                        <div class="p-4 bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/50 rounded-2xl flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-emerald-500 text-white p-2 rounded-lg">
+                                    <i class="fa-solid fa-check text-base"></i>
+                                </div>
+                                <span class="font-semibold text-slate-700 dark:text-slate-300">Preguntas Acertadas</span>
+                            </div>
+                            <span id="finalCorrectCount" class="text-2xl font-black text-emerald-600 dark:text-emerald-400">0</span>
+                        </div>
+
+                        <div class="p-4 bg-rose-50/50 dark:bg-rose-950/20 border border-rose-100 dark:border-rose-900/50 rounded-2xl flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-rose-500 text-white p-2 rounded-lg">
+                                    <i class="fa-solid fa-xmark text-base px-0.5"></i>
+                                </div>
+                                <span class="font-semibold text-slate-700 dark:text-slate-300">Preguntas Falladas</span>
+                            </div>
+                            <span id="finalIncorrectCount" class="text-2xl font-black text-rose-600 dark:text-rose-400">0</span>
+                        </div>
+
+                        <div class="p-4 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-slate-400 text-white p-2 rounded-lg">
+                                    <i class="fa-solid fa-clock text-base"></i>
+                                </div>
+                                <span class="font-semibold text-slate-700 dark:text-slate-300">Total Respondidas</span>
+                            </div>
+                            <span class="text-2xl font-black text-slate-700 dark:text-slate-300">20 / 20</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Feedback Message -->
+                <div class="p-5 rounded-2xl text-center mb-8 bg-gradient-to-tr" id="feedbackPanel">
+                    <p id="feedbackMessage" class="font-medium text-base"></p>
+                </div>
+
+                <!-- Detailed Breakdown Toggle -->
+                <div class="mb-8">
+                    <button id="toggleReviewBtn" class="w-full px-5 py-3 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center justify-between transition-colors">
+                        <span>Ver Revisión Detallada de Respuestas</span>
+                        <i id="reviewToggleIcon" class="fa-solid fa-chevron-down transition-transform duration-200"></i>
+                    </button>
+                    
+                    <!-- Scrollable Review Container -->
+                    <div id="reviewContainer" class="hidden mt-4 space-y-4 max-h-96 overflow-y-auto pr-2 border-t border-slate-100 dark:border-slate-800 pt-4">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button id="retryBtn" class="px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold rounded-2xl shadow-lg shadow-emerald-500/20 transform hover:-translate-y-0.5 transition-all duration-150">
+                        <i class="fa-solid fa-arrow-rotate-right mr-2"></i> Intentar Nuevamente
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-center">
+        <p class="text-xs text-slate-400 dark:text-slate-500">
+            &copy; 2026 EmprendeTecH. Todos los derechos reservados. Diseñado bajo altos estándares pedagógicos interactivos.
+        </p>
+    </footer>
+
+    <!-- Core App Logic Script -->
+    <script>
+        // System Themes setup
+        const themeToggleBtn = document.getElementById('themeToggle');
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Question Database based on exactly user's requested ordered queries
+        const database = [
+            {
+                num: 1,
+                badge: "Concepto de Negocio Digital",
+                question: "¿Qué define fundamentalmente al negocio digital según el texto?",
+                options: [
+                    { key: "A", text: "Se limita a vender productos físicos por internet" },
+                    { key: "B", text: "Se apoya en tecnología y plataformas en línea para realizar transacciones, ofrecer bienes/servicios y generar ingresos" },
+                    { key: "C", text: "Requiere obligatoriamente una oficina física para operar" },
+                    { key: "D", text: "Solo sirve para jóvenes emprendedores sin experiencia" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 2,
+                badge: "Modelos de Negocios",
+                question: "¿Cuál de los siguientes NO es un modelo de negocio digital mencionado en el material?",
+                options: [
+                    { key: "A", text: "Comercio electrónico" },
+                    { key: "B", text: "Suscripciones" },
+                    { key: "C", text: "Franquicias tradicionales" },
+                    { key: "D", text: "Marketplaces" }
+                ],
+                correct: "C"
+            },
+            {
+                num: 3,
+                badge: "Definición E-Commerce",
+                question: "El E-Commerce se define como:",
+                options: [
+                    { key: "A", text: "La compraventa exclusiva de productos digitales sin envío físico" },
+                    { key: "B", text: "Toda transacción de bienes y servicios a través de internet, con plataformas donde se muestran productos y se realizan cobros/pagos" },
+                    { key: "C", text: "La publicidad de productos en redes sociales sin posibilidad de compra" },
+                    { key: "D", text: "Las tiendas físicas que solo aceptan pagos con tarjeta" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 4,
+                badge: "Estructura B2C",
+                question: "¿Qué significa el modelo B2C?",
+                options: [
+                    { key: "A", text: "Consumidor que vende a otro consumidor" },
+                    { key: "B", text: "Empresa que realiza transacciones con otra empresa" },
+                    { key: "C", text: "Empresa que vende productos o servicios directamente a consumidores finales" },
+                    { key: "D", text: "Consumidor que ofrece servicios a una empresa" }
+                ],
+                correct: "C"
+            },
+            {
+                num: 5,
+                badge: "Estructura B2B",
+                question: "¿Qué caracteriza al modelo B2B?",
+                options: [
+                    { key: "A", text: "Las ventas se realizan exclusivamente por redes sociales" },
+                    { key: "B", text: "Las empresas hacen transacciones comerciales con otras empresas, ofreciendo productos o servicios para uso empresarial" },
+                    { key: "C", text: "Los consumidores compran directamente a los fabricantes" },
+                    { key: "D", text: "Se basa en la venta de productos de bajo valor económico" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 6,
+                badge: "Estructura C2C",
+                question: "¿Cuál es la definición del modelo C2C?",
+                options: [
+                    { key: "A", text: "Empresas que ofrecen servicios gratuitos a usuarios" },
+                    { key: "B", text: "Consumidores que venden productos o servicios directamente a otros consumidores" },
+                    { key: "C", text: "Gobiernos que realizan ventas a la ciudadanía" },
+                    { key: "D", text: "Tiendas en línea que venden al por mayor" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 7,
+                badge: "Estructura C2B",
+                question: "En el modelo C2B:",
+                options: [
+                    { key: "A", text: "Las empresas venden servicios a consumidores finales" },
+                    { key: "B", text: "Los consumidores individuales ofrecen productos, servicios o conocimientos a empresas, usualmente por plataformas en línea" },
+                    { key: "C", text: "Los consumidores pagan una suscripción mensual a una plataforma" },
+                    { key: "D", text: "Las empresas compran productos directamente a fabricantes" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 8,
+                badge: "Suscripción Digital",
+                question: "¿Cómo funcionan las suscripciones como modelo de negocio?",
+                options: [
+                    { key: "A", text: "Se cobra una sola vez por acceso ilimitado de por vida" },
+                    { key: "B", text: "Son pagos periódicos a cambio de acceder a contenido o servicios en una plataforma en línea" },
+                    { key: "C", text: "Se recibe dinero por recomendar productos a otras personas" },
+                    { key: "D", text: "Se obtienen ganancias solo por publicidad en la plataforma" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 9,
+                badge: "Modelo Freemium",
+                question: "¿Qué describe al modelo Freemium?",
+                options: [
+                    { key: "A", text: "Todo el contenido y servicios son de pago obligatorio" },
+                    { key: "B", text: "Ofrece un servicio básico gratuito, y opciones o características adicionales con costo" },
+                    { key: "C", text: "Solo se puede usar el servicio si se invita a otros usuarios" },
+                    { key: "D", text: "Es un modelo exclusivo para plataformas de video" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 10,
+                badge: "Modelo de Afiliados",
+                question: "El modelo de Afiliados se basa en:",
+                options: [
+                    { key: "A", text: "Personas o empresas que promocionan productos de terceros y reciben comisión por cada venta concretada" },
+                    { key: "B", text: "Usuarios que pagan una cuota para pertenecer a una comunidad" },
+                    { key: "C", text: "Empresas que compran espacios publicitarios en sitios web" },
+                    { key: "D", text: "Tiendas que venden productos de una sola marca" }
+                ],
+                correct: "A"
+            },
+            {
+                num: 11,
+                badge: "Marketplaces",
+                question: "¿Qué función cumplen los Marketplaces?",
+                options: [
+                    { key: "A", text: "Son tiendas exclusivas de una sola marca que vende sus propios productos" },
+                    { key: "B", text: "Son plataformas que conectan a compradores y vendedores para que realicen transacciones en línea" },
+                    { key: "C", text: "Son sitios web solo para mostrar información sin permitir compras" },
+                    { key: "D", text: "Son plataformas de cursos y capacitaciones" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 12,
+                badge: "Ventajas Competitivas",
+                question: "¿Qué se entiende por Alcance Global como ventaja del negocio digital?",
+                options: [
+                    { key: "A", text: "Se puede vender solo a personas de la misma ciudad" },
+                    { key: "B", text: "El negocio puede llegar a personas de cualquier parte del mundo sin limitaciones geográficas" },
+                    { key: "C", text: "Se requiere invertir mucho dinero para llegar a otros países" },
+                    { key: "D", text: "Solo se puede usar el idioma inglés para vender" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 13,
+                badge: "Ventajas Competitivas",
+                question: "¿A qué se refiere la ventaja del Menor costo operativo?",
+                options: [
+                    { key: "A", text: "Los productos siempre son más baratos que en tiendas físicas" },
+                    { key: "B", text: "En comparación con modelos tradicionales, se gastan menos recursos para mantener y operar el negocio a largo plazo" },
+                    { key: "C", text: "No hay que pagar impuestos en los negocios digitales" },
+                    { key: "D", text: "Todo el software y herramientas digitales son gratuitos" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 14,
+                badge: "Ventajas Competitivas",
+                question: "La ventaja de Mayor velocidad de lanzamiento significa que:",
+                options: [
+                    { key: "A", text: "Se pueden sacar productos o servicios al mercado rápidamente, antes que la competencia" },
+                    { key: "B", text: "Las entregas de productos siempre tardan menos de 24 horas" },
+                    { key: "C", text: "El sitio web se carga más rápido que cualquier otra página" },
+                    { key: "D", text: "Se obtienen ganancias desde el primer día de operación" }
+                ],
+                correct: "A"
+            },
+            {
+                num: 15,
+                badge: "Componentes E-Commerce",
+                question: "¿Qué función cumple el Catálogo de productos en una tienda en línea?",
+                options: [
+                    { key: "A", text: "Se encarga de procesar los pagos de los clientes" },
+                    { key: "B", text: "Es la lista de todos los productos que se ofrecen en la tienda" },
+                    { key: "C", text: "Almacena los datos personales de los compradores" },
+                    { key: "D", text: "Organiza el envío de los productos" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 16,
+                badge: "Componentes E-Commerce",
+                question: "El Carrito de compras tiene como función:",
+                options: [
+                    { key: "A", text: "Mostrar la lista de precios de todos los artículos" },
+                    { key: "B", text: "Ser el sistema donde el usuario agrega los productos que desea comprar" },
+                    { key: "C", text: "Realizar el cobro automático al cliente" },
+                    { key: "D", text: "Gestionar la entrega del producto" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 17,
+                badge: "Componentes E-Commerce",
+                question: "¿Qué incluye el Proceso de pago en una tienda en línea?",
+                options: [
+                    { key: "A", text: "Solo la forma de pagar con dinero en efectivo al recibir el producto" },
+                    { key: "B", text: "El medio y la información necesaria para realizar el pago de forma segura" },
+                    { key: "C", text: "La lista de bancos que operan en el país" },
+                    { key: "D", text: "Los datos de contacto del vendedor" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 18,
+                badge: "Componentes E-Commerce",
+                question: "El componente de Seguridad y confianza se encarga de:",
+                options: [
+                    { key: "A", text: "Garantizar que los productos lleguen en buen estado" },
+                    { key: "B", text: "Proteger los datos personales y financieros de los usuarios" },
+                    { key: "C", text: "Ofrecer garantías de devolución sin condiciones" },
+                    { key: "D", text: "Verificar que el cliente sea mayor de edad" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 19,
+                badge: "Componentes E-Commerce",
+                question: "¿Qué abarca la Logística y envío en la tienda en línea?",
+                options: [
+                    { key: "A", text: "La creación de las fotografías de los productos" },
+                    { key: "B", text: "La entrega del producto hasta el lugar donde se encuentra el cliente" },
+                    { key: "C", text: "La gestión de las quejas de los usuarios" },
+                    { key: "D", text: "El registro de nuevos clientes en la plataforma" }
+                ],
+                correct: "B"
+            },
+            {
+                num: 20,
+                badge: "Impacto del Emprendimiento",
+                question: "Según el texto, ¿qué impacto tiene el emprendimiento digital?",
+                options: [
+                    { key: "A", text: "Solo cambia la forma de vender, sin afectar otros aspectos" },
+                    { key: "B", text: "Redefine carreras, metas personales y transforma la economía y la sociedad en general" },
+                    { key: "C", text: "Es una moda que desaparecerá en pocos años" },
+                    { key: "D", text: "Solo beneficia a personas con muchos recursos económicos" }
+                ],
+                correct: "B"
+            }
+        ];
+
+        // State variables
+        let currentQuestionIndex = 0;
+        let scoreCorrect = 0;
+        let scoreIncorrect = 0;
+        let selectedAnswers = []; // store logs of choices
+        let hasSelectedForCurrent = false;
+
+        // UI Selectors
+        const welcomeCard = document.getElementById('welcomeCard');
+        const quizCard = document.getElementById('quizCard');
+        const resultCard = document.getElementById('resultCard');
+        
+        const startBtn = document.getElementById('startBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const retryBtn = document.getElementById('retryBtn');
+        const toggleReviewBtn = document.getElementById('toggleReviewBtn');
+        
+        const questionCounter = document.getElementById('questionCounter');
+        const liveScoreCorrect = document.getElementById('liveScoreCorrect');
+        const liveScoreIncorrect = document.getElementById('liveScoreIncorrect');
+        const progressBar = document.getElementById('progressBar');
+        const questionText = document.getElementById('questionText');
+        const quizBadge = document.getElementById('quizBadge');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const reviewContainer = document.getElementById('reviewContainer');
+        const reviewToggleIcon = document.getElementById('reviewToggleIcon');
+
+        // Initializer
+        startBtn.addEventListener('click', startQuiz);
+        nextBtn.addEventListener('click', goToNextQuestion);
+        retryBtn.addEventListener('click', restartQuiz);
+        toggleReviewBtn.addEventListener('click', toggleReviewPanel);
+
+        function startQuiz() {
+            welcomeCard.classList.add('hidden');
+            resultCard.classList.add('hidden');
+            quizCard.classList.remove('hidden');
+            
+            // Reset States
+            currentQuestionIndex = 0;
+            scoreCorrect = 0;
+            scoreIncorrect = 0;
+            selectedAnswers = [];
+            
+            updateLiveStats();
+            loadQuestion();
+        }
+
+        function updateLiveStats() {
+            questionCounter.innerText = `${currentQuestionIndex + 1} de ${database.length}`;
+            liveScoreCorrect.innerText = scoreCorrect;
+            liveScoreIncorrect.innerText = scoreIncorrect;
+            const progressPercent = ((currentQuestionIndex) / database.length) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+        }
+
+        function loadQuestion() {
+            hasSelectedForCurrent = false;
+            nextBtn.disabled = true;
+            nextBtn.className = "px-6 py-3 bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed font-semibold rounded-xl flex items-center transition-all duration-200";
+
+            const currentQ = database[currentQuestionIndex];
+            quizBadge.innerText = currentQ.badge;
+            questionText.innerText = currentQ.question;
+
+            // Clear previous items
+            optionsContainer.innerHTML = '';
+
+            // Generate options
+            currentQ.options.forEach(opt => {
+                const optButton = document.createElement('button');
+                optButton.type = "button";
+                optButton.className = "w-full text-left p-5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-2xl flex justify-between items-center transition-all duration-150 transform hover:-translate-y-0.5 shadow-sm active:translate-y-0";
+                
+                // Content of option
+                optButton.innerHTML = `
+                    <div class="flex items-start pr-4">
+                        <span class="flex items-center justify-center bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold w-7 h-7 rounded-lg text-sm mr-3.5 mt-0.5 flex-shrink-0 transition-colors">
+                            ${opt.key}
+                        </span>
+                        <p class="text-sm sm:text-base font-medium text-slate-700 dark:text-slate-300 transition-colors inline-block leading-relaxed">
+                            ${opt.text}
+                        </p>
+                    </div>
+                    <div class="feedback-icon flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-150"></div>
+                `;
+
+                optButton.addEventListener('click', () => selectOption(optButton, opt.key));
+                optionsContainer.appendChild(optButton);
+            });
+
+            updateLiveStats();
+        }
+
+        function selectOption(buttonElement, chosenKey) {
+            if (hasSelectedForCurrent) return; // Prevent multiple clicks
+            hasSelectedForCurrent = true;
+
+            const currentQ = database[currentQuestionIndex];
+            const isCorrect = (chosenKey === currentQ.correct);
+
+            // Store choice
+            selectedAnswers.push({
+                questionIndex: currentQuestionIndex,
+                chosenKey: chosenKey,
+                isCorrect: isCorrect
+            });
+
+            if (isCorrect) {
+                scoreCorrect++;
+            } else {
+                scoreIncorrect++;
+            }
+
+            // Highlight Option Controls
+            const children = optionsContainer.children;
+            for (let i = 0; i < children.length; i++) {
+                const btn = children[i];
+                // Disable further actions visually
+                btn.classList.remove('hover:-translate-y-0.5', 'hover:border-slate-300', 'dark:hover:border-slate-700');
+                btn.classList.add('cursor-default');
+
+                // Determine this button's choice identifier
+                const spanKey = btn.querySelector('span').innerText.trim();
+
+                // Specific rules asked:
+                // 1) Si se equivoca: "le pondrás una x y de fondo color rojo"
+                // 2) Si es correcto: "las marcaras con un visto y subrayarás de color verde"
+                if (spanKey === chosenKey) {
+                    if (isCorrect) {
+                        // Mark as correct choice
+                        btn.className = "w-full text-left p-5 bg-emerald-50/80 dark:bg-emerald-950/30 border-2 border-emerald-500 rounded-2xl flex justify-between items-center transition-all duration-150 shadow-md shadow-emerald-500/10";
+                        btn.querySelector('p').className = "text-sm sm:text-base font-bold text-emerald-800 dark:text-emerald-300 leading-relaxed underline decoration-emerald-500 decoration-2 underline-offset-4";
+                        btn.querySelector('span').className = "flex items-center justify-center bg-emerald-500 text-white font-bold w-7 h-7 rounded-lg text-sm mr-3.5 mt-0.5 flex-shrink-0";
+                        btn.querySelector('.feedback-icon').innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400 text-lg"></i>`;
+                    } else {
+                        // Mark as wrong choice
+                        btn.className = "w-full text-left p-5 bg-rose-100 dark:bg-rose-950/40 border-2 border-rose-500 rounded-2xl flex justify-between items-center transition-all duration-150 shadow-md shadow-rose-500/10";
+                        btn.querySelector('p').className = "text-sm sm:text-base font-semibold text-rose-800 dark:text-rose-300 leading-relaxed";
+                        btn.querySelector('span').className = "flex items-center justify-center bg-rose-500 text-white font-bold w-7 h-7 rounded-lg text-sm mr-3.5 mt-0.5 flex-shrink-0";
+                        btn.querySelector('.feedback-icon').innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600 dark:text-rose-400 text-lg"></i>`;
+                    }
+                } else if (spanKey === currentQ.correct) {
+                    // Always show correct answer if user got it wrong
+                    btn.className = "w-full text-left p-5 bg-emerald-50/80 dark:bg-emerald-950/30 border-2 border-emerald-500 rounded-2xl flex justify-between items-center transition-all duration-150 shadow-md shadow-emerald-500/10";
+                    btn.querySelector('p').className = "text-sm sm:text-base font-bold text-emerald-800 dark:text-emerald-300 leading-relaxed underline decoration-emerald-500 decoration-2 underline-offset-4";
+                    btn.querySelector('span').className = "flex items-center justify-center bg-emerald-500 text-white font-bold w-7 h-7 rounded-lg text-sm mr-3.5 mt-0.5 flex-shrink-0";
+                    btn.querySelector('.feedback-icon').innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 dark:text-emerald-400 text-lg"></i>`;
+                } else {
+                    // Mute other non-selected options
+                    btn.className = "w-full text-left p-5 bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-900 rounded-2xl flex justify-between items-center opacity-40 transition-all duration-150";
+                }
+            }
+
+            // Enable Next Button
+            nextBtn.disabled = false;
+            nextBtn.className = "px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold rounded-xl flex items-center shadow-md shadow-emerald-500/10 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0";
+            
+            // Live counters update immediately
+            liveScoreCorrect.innerText = scoreCorrect;
+            liveScoreIncorrect.innerText = scoreIncorrect;
+        }
+
+        function goToNextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < database.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizCard.classList.add('hidden');
+            resultCard.classList.remove('hidden');
+
+            // Set simple scores
+            const finalPercent = Math.round((scoreCorrect / database.length) * 100);
+            
+            document.getElementById('finalCorrectCount').innerText = scoreCorrect;
+            document.getElementById('finalIncorrectCount').innerText = scoreIncorrect;
+            document.getElementById('resultPercentText').innerText = `${finalPercent}%`;
+
+            // Circle animation
+            const circle = document.getElementById('resultProgressCircle');
+            const circumference = 2 * Math.PI * 70; // r=70
+            const strokeDashoffset = circumference - (finalPercent / 100) * circumference;
+            circle.style.strokeDashoffset = strokeDashoffset;
+
+            // Configure dynamic feedback panel design
+            const feedbackPanel = document.getElementById('feedbackPanel');
+            const feedbackMessage = document.getElementById('feedbackMessage');
+            
+            if (finalPercent >= 80) {
+                feedbackPanel.className = "p-5 rounded-2xl text-center mb-8 bg-gradient-to-tr from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300";
+                feedbackMessage.innerHTML = `<i class="fa-solid fa-crown mr-2"></i> ¡Excelente desempeño! Dominas con total solvencia todos los conceptos de negocio digital, transacciones e infraestructura web.`;
+            } else if (finalPercent >= 50) {
+                feedbackPanel.className = "p-5 rounded-2xl text-center mb-8 bg-gradient-to-tr from-amber-500/10 to-orange-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300";
+                feedbackMessage.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-2"></i> ¡Buen intento! Tienes bases sólidas, pero te recomendamos repasar conceptos puntuales sobre canales C2B, Freemium o logística para perfeccionar tu desempeño.`;
+            } else {
+                feedbackPanel.className = "p-5 rounded-2xl text-center mb-8 bg-gradient-to-tr from-rose-500/10 to-red-500/10 border border-rose-500/20 text-rose-800 dark:text-rose-300";
+                feedbackMessage.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-2"></i> Requiere refuerzo. Te sugerimos volver a estudiar la estructura de los modelos comerciales digitales tradicionales y digitales para consolidar los pilares de tu aprendizaje.`;
+            }
+
+            // Build detailed review breakdown listing
+            reviewContainer.innerHTML = '';
+            database.forEach((q, idx) => {
+                const userLog = selectedAnswers.find(log => log.questionIndex === idx);
+                const userOption = q.options.find(opt => opt.key === userLog.chosenKey);
+                const correctOption = q.options.find(opt => opt.key === q.correct);
+
+                const qBlock = document.createElement('div');
+                qBlock.className = `p-5 rounded-2xl border ${userLog.isCorrect ? 'bg-emerald-50/25 dark:bg-emerald-950/10 border-emerald-100 dark:border-emerald-950' : 'bg-rose-50/25 dark:bg-rose-950/10 border-rose-100 dark:border-rose-950'} space-y-3`;
+                
+                qBlock.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase px-3 py-1 bg-slate-100 dark:bg-slate-900 rounded-full text-slate-500 dark:text-slate-400">
+                            Pregunta ${q.num}
+                        </span>
+                        <span class="text-xs font-bold uppercase flex items-center ${userLog.isCorrect ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}">
+                            ${userLog.isCorrect ? '<i class="fa-solid fa-circle-check mr-1.5"></i> CORRECTO' : '<i class="fa-solid fa-circle-xmark mr-1.5"></i> INCORRECTO'}
+                        </span>
+                    </div>
+                    <h4 class="font-bold text-slate-800 dark:text-slate-100 text-sm sm:text-base leading-snug">${q.question}</h4>
+                    <div class="space-y-1.5 text-xs sm:text-sm">
+                        <p class="text-slate-600 dark:text-slate-400"><strong class="font-bold text-slate-700 dark:text-slate-300">Tu respuesta:</strong> (${userLog.chosenKey}) ${userOption.text}</p>
+                        ${!userLog.isCorrect ? `<p class="text-emerald-600 dark:text-emerald-400"><strong class="font-bold">Correcta:</strong> (${q.correct}) ${correctOption.text}</p>` : ''}
+                    </div>
+                `;
+                reviewContainer.appendChild(qBlock);
+            });
+        }
+
+        function restartQuiz() {
+            // Close Review Panel if open
+            reviewContainer.classList.add('hidden');
+            reviewToggleIcon.className = "fa-solid fa-chevron-down transition-transform duration-200";
+            
+            // Back to quiz setup
+            startQuiz();
+        }
+
+        function toggleReviewPanel() {
+            const isHidden = reviewContainer.classList.toggle('hidden');
+            reviewToggleIcon.className = isHidden 
+                ? "fa-solid fa-chevron-down transition-transform duration-200" 
+                : "fa-solid fa-chevron-up transition-transform duration-200";
+        }
+    </script>
+</body>
+</html>
